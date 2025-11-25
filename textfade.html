@@ -24,33 +24,78 @@
         font-size: 100px;
         box-sizing: border-box;
       }
-      .input {
+      .input-container {
         position: fixed; /* or absolute if using a positioned container */
         top: 50%;
         left: 50%;
+        width: 80%;
         transform: translate(-50%, -50%);
-        padding: 0.6rem;
       }
-      input {
+      textarea:focus {
+        outline: none;
+        border: none;
+      }
+
+      .input-container > textarea {
+        color: transparent;
+        caret-color: var(--text-color);
+        position: relative;
+        z-index: 2;
         font: inherit;
-        color: inherit;
-        background: none;
+        background: transparent;
         border: none;
         text-align: center;
       }
-      input:focus {
-        outline: none;
-        border: none;
+
+      /* Overlay for animated characters */
+      .display {
+        background: transparent;
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+        white-space: pre;
+        z-index: 1;
+        flex-wrap: wrap;
+      }
+
+      /* Each character span */
+      .char {
+        display: inline-block;
+        color: var(--text-color);
+        transition: color 400ms, opacity 400ms;
+        font: inherit;
+        opacity: 1;
+        margin: 0 0.02em;
+      }
+
+      /* Smoke animation */
+      .char.smoke {
+        animation: smoke 1.2s forwards;
+      }
+
+      @keyframes smoke {
+        to {
+          opacity: 0;
+          transform: translateY(-40px) scale(1.1);
+          filter: blur(8px);
+        }
       }
     </style>
   </head>
 
   <body>
     <div class="container">
-      <div class="input">
-        <input type="text" />
+      <div class="input-container">
+        <textarea
+          type="text"
+          autofocus
+          aria-label="Type here"
+          placeholder="What's on your mind ?"
+        ></textarea>
+        <div class="display" aria-hidden="true"></div>
       </div>
-    
     </div>
   </body>
 </html>
